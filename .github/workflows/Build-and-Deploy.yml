@@ -33,18 +33,31 @@ jobs:
           [ -d docs/${{env.BRANCH}} ] || mkdir docs/${{env.BRANCH}}
           #cp -r src/. docs/${{env.BRANCH}}
 
-      - uses: EdricChan03/action-build-deploy-ghpages@v2.5.0
+      - name: Cache gems
+        uses: actions/cache@v1
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          gh_pages_dist_folder: 'docs/${{env.BRANCH}}'
-          skip_deploy: 'true'
+          path: vendor/gems
+          key: ${{ runner.os }}-build-${{ hashFiles('**/Gemfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
 
-      - name: Deploy
-        uses: JamesIves/github-pages-deploy-action@4.1.4
+      - name: Build
+        uses: DavidS/jekyll-deploy@
         with:
-          branch: gh-pages # The branch the action should deploy to.
-          folder: docs/env.BRANCH # The folder the action should deploy.
-          target-folder: docs/env.BRANCH
+          build-only: true
+          source-dir: src
+          #target-branch:
+        env:
+          JEKYLL_ENV: production
+          GH_PAGES_TOKEN: ${{ secrets.GH_PAGES_TOKEN }}
+
+      #- name: Deploy
+      #  uses: JamesIves/github-pages-deploy-action@4.1.4
+      #  with:
+      #    branch: gh-pages # The branch the action should deploy to.
+      #    folder: docs/env.BRANCH # The folder the action should deploy.
+      #    target-folder: docs/env.BRANCH
 
       #- name: Deploy
       #  uses: Cecilapp/GitHub-Pages-deploy@v3

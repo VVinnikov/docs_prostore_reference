@@ -33,24 +33,63 @@ jobs:
           [ -d docs/${{env.BRANCH}} ] || mkdir docs/${{env.BRANCH}}
           #cp -r src/. docs/${{env.BRANCH}}
 
-      - name: Cache gems
-        uses: actions/cache@v1
-        with:
-          path: vendor/gems
-          key: ${{ runner.os }}-build-${{ hashFiles('**/Gemfile.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-build-
-            ${{ runner.os }}-
+name: Testing the GitHub Pages publication
 
-      - name: Build
-        uses: DavidS/jekyll-deploy@main
-        with:
-          build-only: true
-          source-dir: src
-          #target-branch:
-        env:
-          JEKYLL_ENV: production
-          GH_PAGES_TOKEN: ${{ secrets.GH_PAGES_TOKEN }}
+on:
+  push
+
+jobs:
+  jekyll:
+    runs-on: ubuntu-16.04
+    steps:
+    - uses: actions/checkout@v2
+
+    # Use GitHub Actions' cache to shorten build times and decrease load on servers
+    - uses: actions/cache@v2
+      with:
+        path: vendor/bundle
+        key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile') }}
+        restore-keys: |
+          ${{ runner.os }}-gems-
+
+    # Standard usage
+    - uses:  helaili/jekyll-action@v2
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+
+    # Specify the Jekyll source location as a parameter
+    - uses: helaili/jekyll-action@v2
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        jekyll_src: src
+
+    # Specify the target branch (optional)
+    - uses: helaili/jekyll-action@v2
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        target_branch: gh-pages
+        target_path: docs/${{env.BRANCH}}
+        #keep_history: true
+        build_only: true
+
+      #- name: Cache gems
+      #  uses: actions/cache@v1
+      #  with:
+      #    path: vendor/gems
+      #    key: ${{ runner.os }}-build-${{ hashFiles('**/Gemfile.lock') }}
+      #    restore-keys: |
+      #      ${{ runner.os }}-build-
+      #      ${{ runner.os }}-
+
+      #- name: Build
+      #  uses: DavidS/jekyll-deploy@main
+      #  with:
+      #    build-only: true
+      #    source-dir: src
+      #    #target-branch:
+      #  env:
+      #    JEKYLL_ENV: production
+      #    GH_PAGES_TOKEN: ${{ secrets.GH_PAGES_TOKEN }}
 
       #- name: Deploy
       #  uses: JamesIves/github-pages-deploy-action@4.1.4

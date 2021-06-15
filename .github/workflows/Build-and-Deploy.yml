@@ -31,22 +31,29 @@ jobs:
         run: |
           [ -d docs ] || mkdir docs
           [ -d docs/${{env.BRANCH}} ] || mkdir docs/${{env.BRANCH}}
-          cp -r src/. docs/${{env.BRANCH}}
+          #cp -r src/. docs/${{env.BRANCH}}
 
-      #- name: Deploy
-      #  uses: JamesIves/github-pages-deploy-action@4.1.4
-      #  with:
-      #    branch: gh-pages # The branch the action should deploy to.
-      #    folder: docs/env.BRANCH # The folder the action should deploy.
+      - uses: EdricChan03/action-build-deploy-ghpages@v2.5.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          gh_pages_dist_folder: 'docs/'${{env.BRANCH}}
+          skip_deploy: true
 
       - name: Deploy
-        uses: Cecilapp/GitHub-Pages-deploy@v3
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        uses: JamesIves/github-pages-deploy-action@4.1.4
         with:
-          email: vvv@arenadata.io
-          build_dir: docs/${{env.BRANCH}}
-          branch: gh-pages
-          jekyll: yes
-          # commit_message: custom message # optional
+          branch: gh-pages # The branch the action should deploy to.
+          folder: docs/env.BRANCH # The folder the action should deploy.
+          target-folder: docs/env.BRANCH
+
+      #- name: Deploy
+      #  uses: Cecilapp/GitHub-Pages-deploy@v3
+      #  env:
+      #    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #  with:
+      #    email: vvv@arenadata.io
+      #    build_dir: docs/${{env.BRANCH}}
+      #    branch: gh-pages
+      #    jekyll: yes
+      #    # commit_message: custom message # optional
     

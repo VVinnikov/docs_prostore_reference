@@ -25,14 +25,20 @@ jobs:
       - name: Check output
         run: echo ${{ steps.vars.outputs.short_ref }}
 
-      - name: Install and Build
-        run: |
-          npm install
-          npm run build
+      #- name: Deploy
+      #  uses: JamesIves/github-pages-deploy-action@4.1.4
+      #  with:
+      #    branch: gh-pages # The branch the action should deploy to.
+      #    folder: docs/env.BRANCH # The folder the action should deploy.
 
       - name: Deploy
-        uses: JamesIves/github-pages-deploy-action@4.1.4
+        uses: Cecilapp/GitHub-Pages-deploy@v3
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          branch: gh-pages # The branch the action should deploy to.
-          folder: docs/env.BRANCH # The folder the action should deploy.
-      
+          email: vvv@arenadata.io
+          build_dir: docs/env.BRANCH
+          branch: gh-pages
+          jekyll: yes
+          # commit_message: custom message # optional
+    

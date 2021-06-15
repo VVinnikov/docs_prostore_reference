@@ -49,7 +49,7 @@ jobs:
           target_branch: gh-pages
           target_path: docs/${{env.BRANCH}}
           #keep_history: true
-          build_only: true
+          build_only: false
 
       #- name: Cache gems
       #  uses: actions/cache@v1

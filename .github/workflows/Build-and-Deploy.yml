@@ -31,7 +31,7 @@ jobs:
         run: |
           [ -d docs ] || mkdir docs
           [ -d docs/${{env.BRANCH}} ] || mkdir docs/${{env.BRANCH}}
-          cp -r documents/. docs/${{env.BRANCH}}
+          cp -r src/. docs/${{env.BRANCH}}
 
       #- name: Deploy
       #  uses: JamesIves/github-pages-deploy-action@4.1.4

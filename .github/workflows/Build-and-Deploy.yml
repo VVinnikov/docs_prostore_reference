@@ -43,7 +43,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           email: vvv@arenadata.io
-          build_dir: docs/v3-7
+          build_dir: docs
           branch: gh-pages
           jekyll: yes
           # commit_message: custom message # optional

@@ -43,7 +43,7 @@ jobs:
             ${{ runner.os }}-
 
       - name: Build
-        uses: DavidS/jekyll-deploy@
+        uses: DavidS/jekyll-deploy@main
         with:
           build-only: true
           source-dir: src

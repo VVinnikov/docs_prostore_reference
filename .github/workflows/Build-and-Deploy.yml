@@ -23,7 +23,9 @@ jobs:
         run: echo ::set-output name=short_ref::${GITHUB_REF#refs/*/}
 
       - name: Check output
-        run: echo ${{ steps.vars.outputs.short_ref }}
+        run: |
+          echo ${{ steps.vars.outputs.short_ref }}
+          echo ${{env.BRANCH}}
 
       #- name: Manage folder
       #  run: |
@@ -41,7 +43,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           email: vvv@arenadata.io
-          build_dir: docs/${{env.BRANCH}}
+          build_dir: docs/v3-7
           branch: gh-pages
           jekyll: yes
           # commit_message: custom message # optional

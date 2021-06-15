@@ -27,9 +27,11 @@ jobs:
           echo ${{ steps.vars.outputs.short_ref }}
           echo ${{env.BRANCH}}
 
-      #- name: Manage folder
-      #  run: |
-      #    [ -d ${{env.BRANCH}} ] || mkdir ${{env.BRANCH}}
+      - name: Manage folder
+        run: |
+          [ -d docs ] || mkdir docs
+          [ -d docs/${{env.BRANCH}} ] || mkdir docs/${{env.BRANCH}}
+          cp -r documents/. docs/${{env.BRANCH}}
 
       #- name: Deploy
       #  uses: JamesIves/github-pages-deploy-action@4.1.4
@@ -43,7 +45,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           email: vvv@arenadata.io
-          build_dir: docs
+          build_dir: docs/${{env.BRANCH}}
           branch: gh-pages
           jekyll: yes
           # commit_message: custom message # optional

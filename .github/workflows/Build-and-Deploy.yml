@@ -36,8 +36,8 @@ jobs:
       - uses: EdricChan03/action-build-deploy-ghpages@v2.5.0
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          gh_pages_dist_folder: 'docs/'${{env.BRANCH}}
-          skip_deploy: true
+          gh_pages_dist_folder: 'docs/${{env.BRANCH}}'
+          skip_deploy: 'true'
 
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@4.1.4

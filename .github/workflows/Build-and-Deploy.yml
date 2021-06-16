@@ -17,6 +17,7 @@ jobs:
         with:
           ref: ${{ github.head_ref }}
           token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 10
 
       - name: Set output
         id: vars

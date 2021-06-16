@@ -33,13 +33,32 @@ jobs:
           [ -d docs/${{env.BRANCH}} ] || mkdir docs/${{env.BRANCH}}
           #cp -r src/. docs/${{env.BRANCH}}
 
+      - name: 🎩 Install Jekyll
+        run: |
+          sudo gem install bundler jekyll
+          sudo bundle install
+      - name: 🧹 Clean site
+        run: |
+          if [ -d "docs" ]; then
+            rm -rf docs/*
+          fi
+      - name: 🔨 Build site
+        run: bundle exec jekyll build -d docs
+      - name: 🧪 Deploy build
+        run: |
+          git config user.name "${GITHUB_ACTOR}"
+          git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
+          git add .
+          git commit -am "🧪 Deploy with ${GITHUB_WORKFLOW}"
+          git push --all -f https://${{ secrets.GITHUB_TOKEN }}@github.com/${GITHUB_REPOSITORY}.git
+
       # Use GitHub Actions' cache to shorten build times and decrease load on servers
-      - uses: actions/cache@v2
-        with:
-          path: vendor/bundle
-          key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile') }}
-          restore-keys: |
-            ${{ runner.os }}-gems-
+      #- uses: actions/cache@v2
+      #  with:
+      #    path: vendor/bundle
+      #    key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile') }}
+      #    restore-keys: |
+      #      ${{ runner.os }}-gems-
 
       # Specify the target branch (optional)
       #- uses: helaili/jekyll-action@v2
@@ -60,15 +79,15 @@ jobs:
       #      ${{ runner.os }}-build-
       #      ${{ runner.os }}-
 
-      - name: Build
-        uses: DavidS/jekyll-deploy@main
-        with:
-          build-only: true
-          source-dir: src
-          #target-branch:
-        env:
-          JEKYLL_ENV: production
-          GH_PAGES_TOKEN: ${{ secrets.GH_PAGES_TOKEN }}
+      #- name: Build
+      #  uses: DavidS/jekyll-deploy@main
+      #  with:
+      #    build-only: true
+      #    source-dir: src
+      #    #target-branch:
+      #  env:
+      #    JEKYLL_ENV: production
+      #    GH_PAGES_TOKEN: ${{ secrets.GH_PAGES_TOKEN }}
 
       #- name: Deploy
       #  uses: JamesIves/github-pages-deploy-action@4.1.4

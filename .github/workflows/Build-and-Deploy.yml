@@ -20,12 +20,12 @@ jobs:
           fetch-depth: 10
 
       - run: |
-          sudo find . -type f -iname "*.md" -or -iname "*.html" -print
+          sudo find . -type f -iname "*.md" -o -iname "*.html" -print
 
       - name: Remove BOM
         run: |
            ls . -R
-           sudo find . -type f -iname "*.md" -or -iname "*.html" -exec sed -i '1s/^\uFEFF//' $1 \;
+           sudo find . -type f -iname "*.md" -o -iname "*.html" -exec sed -i '1s/^\uFEFF//' $1 \;
       - name: Set output
         id: vars
         run: echo ::set-output name=short_ref::${GITHUB_REF#refs/*/}

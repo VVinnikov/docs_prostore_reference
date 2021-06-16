@@ -35,8 +35,8 @@ jobs:
 
       - name: 🎩 Install Jekyll
         run: |
-          sudo gem install bundler jekyll
-          sudo bundle install
+          sudo gem install bundler:2.1.4 jekyll
+          sudo bundle _2.1.4_ install
       - name: 🧹 Clean site
         run: |
           if [ -d "docs" ]; then

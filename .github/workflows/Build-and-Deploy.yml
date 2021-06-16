@@ -42,14 +42,14 @@ jobs:
             ${{ runner.os }}-gems-
 
       # Specify the target branch (optional)
-      - uses: helaili/jekyll-action@v2
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          jekyll_src: src
-          target_branch: gh-pages
-          target_path: docs/${{env.BRANCH}}
-          #keep_history: true
-          build_only: true
+      #- uses: helaili/jekyll-action@v2
+      #  with:
+      #    token: ${{ secrets.GITHUB_TOKEN }}
+      #    jekyll_src: src
+      #    target_branch: gh-pages
+      #    target_path: docs/${{env.BRANCH}}
+      #    #keep_history: true
+      #    build_only: true
 
       #- name: Cache gems
       #  uses: actions/cache@v1
@@ -60,15 +60,15 @@ jobs:
       #      ${{ runner.os }}-build-
       #      ${{ runner.os }}-
 
-      #- name: Build
-      #  uses: DavidS/jekyll-deploy@main
-      #  with:
-      #    build-only: true
-      #    source-dir: src
-      #    #target-branch:
-      #  env:
-      #    JEKYLL_ENV: production
-      #    GH_PAGES_TOKEN: ${{ secrets.GH_PAGES_TOKEN }}
+      - name: Build
+        uses: DavidS/jekyll-deploy@main
+        with:
+          build-only: true
+          source-dir: src
+          #target-branch:
+        env:
+          JEKYLL_ENV: production
+          GH_PAGES_TOKEN: ${{ secrets.GH_PAGES_TOKEN }}
 
       #- name: Deploy
       #  uses: JamesIves/github-pages-deploy-action@4.1.4

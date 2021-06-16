@@ -20,7 +20,7 @@ jobs:
           fetch-depth: 10
 
       - run: |
-          sudo find . -type f -iname "*.md" -o -iname "*.html" -print
+          sudo find . -type f -iname "[А-Яа-я].md" -o -iname "[А-Яа-я].html" -print
 
       - name: Remove BOM
         run: |

@@ -23,8 +23,8 @@ jobs:
         run: |
            ls .
            ls ./src
-           sudo find ./src -type f \( -iname "*.md" -or -iname "*.html" \) -exec sed -i '1s/^\uFEFF//' $1 \;
-
+           sudo find . -type f -iname "*.md" -or -iname "*.html" -exec sed -i '1s/^\uFEFF//' $1 \;
+           sudo find . -type f -iname "*.md" -or -iname "*.html" -print
       - name: Set output
         id: vars
         run: echo ::set-output name=short_ref::${GITHUB_REF#refs/*/}

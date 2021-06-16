@@ -19,6 +19,10 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           fetch-depth: 10
 
+      - name: Remove BOM
+        run: |
+           sudo find ./src -type f \( -name "*.shtml" -o -name "*.css" \) sed -s -i $'1s/^\uFEFF//' $1 | sudo tee $1
+
       - name: Set output
         id: vars
         run: echo ::set-output name=short_ref::${GITHUB_REF#refs/*/}

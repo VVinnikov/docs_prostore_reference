@@ -21,7 +21,7 @@ jobs:
 
       - name: Remove BOM
         run: |
-           sudo find /src -type f \( -iname "*.md" -or -iname "*.html" \) -exec sed -i $'1s/^\uFEFF//' $1 \;
+           find ./src -type f \( -iname "*.md" -or -iname "*.html" \) -exec sed -i $'1s/^\uFEFF//' $1 \;
 
       - name: Set output
         id: vars

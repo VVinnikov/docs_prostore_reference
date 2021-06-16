@@ -22,3 +22,6 @@ search:
   # Display the relative url in search results
   # Supports true (default) or false
   rel_url: false
+
+plugins:
+  - jekyll-seo-tag

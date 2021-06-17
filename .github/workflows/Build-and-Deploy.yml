@@ -1,4 +1,4 @@
-name: Build and Deploy
+﻿name: Build and Deploy
 on:
   push:
     branches-ignore:
@@ -23,7 +23,7 @@ jobs:
         run: |
            #ls . -R -l
            #sudo find . -type f -name "*.md" -exec sed -i '1s/^\uFEFF//' {} +
-           sudo find . -type f -iname "*.md" -exec sed -n -i '1s/^\xEF\xBB\xBF//' {} +
+           sudo find . -type f -iname "*.md" -exec sed -i '1s/^\xEF\xBB\xBF//' {} +
       - name: Set output
         id: vars
         run: echo ::set-output name=short_ref::${GITHUB_REF#refs/*/}
@@ -32,6 +32,7 @@ jobs:
         run: |
           echo ${{ steps.vars.outputs.short_ref }}
           echo ${{env.BRANCH}}
+          sudo find . -maxdepth 2 -iname "*.md" -print -exec cat "{}" + 
 
       - name: Manage folder
         run: |
@@ -48,6 +49,7 @@ jobs:
           if [ -d "docs" ]; then
             rm -rf docs/*
           fi
+
       - name: 🔨 Build site
         run: bundle exec jekyll build -s src -d docs/${{env.BRANCH}}
       - name: 🧪 Deploy build

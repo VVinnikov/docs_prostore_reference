@@ -21,8 +21,9 @@ jobs:
 
       - name: Remove BOM
         run: |
-           #ls . -R -l
-           sudo find . -type f -name "*.md" -exec sed -i '1s/^\uFEFF//' {} +
+           sudo apt install dos2unix
+           sudo find . -type f -name "*.md" -exec dos2unix -r {} +
+           #sudo find . -type f -name "*.md" -exec sed -i '1s/^\uFEFF//' {} +
            #sudo find . -type f -iname "*.md" -exec sed -i '1s/^\xEF\xBB\xBF//' {} +
       - name: Set output
         id: vars
@@ -79,7 +80,7 @@ jobs:
           target_branch: gh-pages
           target_path: docs/${{env.BRANCH}}
           #keep_history: true
-          build_only: true
+          build_only: false
 
       #- name: Cache gems
       #  uses: actions/cache@v1

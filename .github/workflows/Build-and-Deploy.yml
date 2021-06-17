@@ -27,7 +27,7 @@ jobs:
       - name: Remove BOM
         run: |
            #ls . -R -l
-           sudo find . -type f -name "*.md" -exec sed -i '1s/^\uFEFF//' $1 \;
+           sudo find . -type f -name "*.md" -exec sed -i '' '1s/^\uFEFF//' {} +
       - name: Set output
         id: vars
         run: echo ::set-output name=short_ref::${GITHUB_REF#refs/*/}

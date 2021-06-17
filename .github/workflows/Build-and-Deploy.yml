@@ -21,8 +21,8 @@ jobs:
 
       - run: |
           #sudo find . -type f -iname "*.md" -o -iname "*.html" -print
-          #sudo find . -type f -iname "*.md" -print
-          sudo find . -type f -print
+          sudo find . -type f -name "*.md" -print
+          #sudo find . -type f -print
 
       - name: Remove BOM
         run: |

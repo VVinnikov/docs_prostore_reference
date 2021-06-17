@@ -19,15 +19,11 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           fetch-depth: 10
 
-      - run: |
-          #sudo find . -type f -iname "*.md" -o -iname "*.html" -print
-          sudo find . -type f -iname "*.md" -print
-          #sudo find . -type f -print
-
       - name: Remove BOM
         run: |
            #ls . -R -l
-           sudo find . -type f -name "*.md" -exec sed -i '1s/^\uFEFF//' {} +
+           #sudo find . -type f -name "*.md" -exec sed -i '1s/^\uFEFF//' {} +
+           sudo find . -type f -name "*.md" -exec sed -n -i '1s/^\xEF\xBB\xBF///p' {} +
       - name: Set output
         id: vars
         run: echo ::set-output name=short_ref::${GITHUB_REF#refs/*/}

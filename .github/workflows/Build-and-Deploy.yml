@@ -63,7 +63,7 @@ jobs:
 
 
 
-       Use GitHub Actions' cache to shorten build times and decrease load on servers
+      # Use GitHub Actions' cache to shorten build times and decrease load on servers
       - uses: actions/cache@v2
         with:
           path: vendor/bundle

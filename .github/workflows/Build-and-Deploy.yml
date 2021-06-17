@@ -20,11 +20,13 @@ jobs:
           fetch-depth: 10
 
       - run: |
-          sudo find . -type f -iname "[А-Яа-я].md" -o -iname "[А-Яа-я].html" -print
+          #sudo find . -type f -iname "*.md" -o -iname "*.html" -print
+          #sudo find . -type f -iname "*.md" -print
+          sudo find . -type f -print
 
       - name: Remove BOM
         run: |
-           ls . -R
+           ls . -R -l
            sudo find . -type f -iname "*.md" -o -iname "*.html" -exec sed -i '1s/^\uFEFF//' $1 \;
       - name: Set output
         id: vars

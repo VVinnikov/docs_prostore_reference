@@ -21,13 +21,13 @@ jobs:
 
       - run: |
           #sudo find . -type f -iname "*.md" -o -iname "*.html" -print
-          sudo find . -type f -name "*.md" -print
+          sudo find . -type f -iname "*.md" -print
           #sudo find . -type f -print
 
       - name: Remove BOM
         run: |
-           ls . -R -l
-           sudo find . -type f -iname "*.md" -o -iname "*.html" -exec sed -i '1s/^\uFEFF//' $1 \;
+           #ls . -R -l
+           sudo find . -type f -name "*.md" -exec sed -i '1s/^\uFEFF//' $1 \;
       - name: Set output
         id: vars
         run: echo ::set-output name=short_ref::${GITHUB_REF#refs/*/}

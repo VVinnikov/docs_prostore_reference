@@ -23,6 +23,7 @@ jobs:
         run: |
            sudo apt install dos2unix
            sudo find . -type f -name "*.md" -exec dos2unix -r {} +
+           sudo find . -type f -name "*.scss" -exec dos2unix -r {} +
            #sudo find . -type f -name "*.md" -exec sed -i '1s/^\uFEFF//' {} +
            #sudo find . -type f -iname "*.md" -exec sed -i '1s/^\xEF\xBB\xBF//' {} +
       - name: Set output

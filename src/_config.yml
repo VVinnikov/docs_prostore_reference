@@ -11,8 +11,8 @@ kramdown:
     block:
       line_numbers: false
       start_line: 1
-remote_theme: pmarsceill/just-the-docs
-№theme: just-the-docs
+#remote_theme: pmarsceill/just-the-docs
+theme: just-the-docs
 color_scheme: custom_colors
 #lang: ru
 search_enabled: true

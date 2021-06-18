@@ -72,15 +72,15 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gems-
 
-      # Specify the target branch (optional)
-      #- uses: helaili/jekyll-action@v2
-      #  with:
-      #    token: ${{ secrets.GITHUB_TOKEN }}
-      #    jekyll_src: src
-      #    target_branch: gh-pages
-      #    target_path: docs/${{env.BRANCH}}
-      #    #keep_history: true
-      #    build_only: false
+       Specify the target branch (optional)
+      - uses: helaili/jekyll-action@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          jekyll_src: src
+          target_branch: ${{env.BRANCH}}
+          target_path: docs/${{env.BRANCH}}
+          #keep_history: true
+          build_only: false
 
       #- name: Cache gems
       #  uses: actions/cache@v1
@@ -105,7 +105,7 @@ jobs:
         uses: JamesIves/github-pages-deploy-action@4.1.4
         with:
           branch: gh-pages # The branch the action should deploy to.
-          folder: src # The folder the action should deploy.
+          folder: docs/${{env.BRANCH}} # The folder the action should deploy.
           target-folder: docs/${{env.BRANCH}}
 
       #- name: Deploy

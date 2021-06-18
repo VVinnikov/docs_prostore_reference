@@ -77,10 +77,10 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           jekyll_src: src
-          target_branch: ${{env.BRANCH}}
+          target_branch: gh-pages
           target_path: docs/${{env.BRANCH}}
           #keep_history: true
-          build_only: false
+          build_only: true
 
       #- name: Cache gems
       #  uses: actions/cache@v1
@@ -101,12 +101,12 @@ jobs:
       #    JEKYLL_ENV: production
       #    GH_PAGES_TOKEN: ${{ secrets.GH_PAGES_TOKEN }}
 
-      - name: Deploy
-        uses: JamesIves/github-pages-deploy-action@4.1.4
-        with:
-          branch: gh-pages # The branch the action should deploy to.
-          folder: docs/${{env.BRANCH}} # The folder the action should deploy.
-          target-folder: docs/${{env.BRANCH}}
+      #- name: Deploy
+      #  uses: JamesIves/github-pages-deploy-action@4.1.4
+      #  with:
+      #    branch: gh-pages # The branch the action should deploy to.
+      #    folder: docs/${{env.BRANCH}} # The folder the action should deploy.
+      #    target-folder: docs/${{env.BRANCH}}
 
       #- name: Deploy
       #  uses: Cecilapp/GitHub-Pages-deploy@v3

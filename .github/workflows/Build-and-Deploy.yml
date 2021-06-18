@@ -105,8 +105,8 @@ jobs:
         uses: JamesIves/github-pages-deploy-action@4.1.4
         with:
           branch: gh-pages # The branch the action should deploy to.
-          folder: docs/env.BRANCH # The folder the action should deploy.
-          target-folder: docs/env.BRANCH
+          folder: src # The folder the action should deploy.
+          target-folder: docs/${{env.BRANCH}}
 
       #- name: Deploy
       #  uses: Cecilapp/GitHub-Pages-deploy@v3

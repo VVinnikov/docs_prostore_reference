@@ -61,11 +61,11 @@ jobs:
           fi
 
       - name: 🔨 Build site
-        run: bundle exec jekyll build -s src -d docs/${{env.BRANCH}}
+        run: bundle exec jekyll build -s src -d ${{env.BRANCH}}
       
       - name: Copy css
         run: |
-          sudo cp -r css docs/${{env.BRANCH}}/assets
+          sudo cp -r css ${{env.BRANCH}}/assets
       
       - name: 🧪 Deploy build
         run: |

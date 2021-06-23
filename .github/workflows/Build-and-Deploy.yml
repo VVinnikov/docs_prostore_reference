@@ -53,7 +53,7 @@ jobs:
       - name: 🎩 Install Jekyll
         run: |
           sudo gem install bundler:2.1.4 jekyll
-          sudo bundle _2.1.4_ install
+          bundle _2.1.4_ install
       - name: 🧹 Clean site
         run: |
           if [ -d "docs" ]; then

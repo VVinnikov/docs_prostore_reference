@@ -17,22 +17,106 @@ jobs:
         with:
           ref: ${{ github.head_ref }}
           token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 10
 
+      - name: Remove BOM
+        run: |
+           sudo apt install dos2unix
+           sudo find . -type f -name "*.md" -exec dos2unix -r {} +
+           sudo find . -type f -name "*.scss" -exec dos2unix -r {} +
       - name: Set output
         id: vars
         run: echo ::set-output name=short_ref::${GITHUB_REF#refs/*/}
 
       - name: Check output
-        run: echo ${{ steps.vars.outputs.short_ref }}
-
-      - name: Install and Build
         run: |
-          npm install
-          npm run build
+          echo ${{ steps.vars.outputs.short_ref }}
+          echo ${{env.BRANCH}}
+          sudo find . -maxdepth 2 -iname "*.md" -print -exec cat "{}" + 
+
+      - name: Manage folder
+        run: |
+          [ -d docs ] || mkdir docs
+          [ -d docs/${{env.BRANCH}} ] || mkdir docs/${{env.BRANCH}}
+          #cp -r src/. docs/${{env.BRANCH}}
+
+      # Use GitHub Actions' cache to shorten build times and decrease load on servers
+      - uses: actions/cache@v2
+        with:
+          path: vendor/bundle
+          key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile') }}
+          restore-keys: |
+            ${{ runner.os }}-gems-
+
+      - name: 🎩 Install Jekyll
+        run: |
+          sudo gem install bundler:2.1.4 jekyll
+          bundle _2.1.4_ install
+      - name: 🧹 Clean site
+        run: |
+          if [ -d "docs" ]; then
+            rm -rf docs/*
+          fi
+
+      - name: 🔨 Build site
+        run: bundle exec jekyll build -s . -d ${{env.BRANCH}}
+      
+      - name: Copy css
+        run: |
+          sudo cp -r css ${{env.BRANCH}}/assets
+      
+      - name: 🧪 Deploy build
+        run: |
+      #    git config user.name "${GITHUB_ACTOR}"
+      #    git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
+      #    git add .
+      #    git commit -am "🧪 Deploy with ${GITHUB_WORKFLOW}"
+      #    git push --all -f https://${{ secrets.GITHUB_TOKEN }}@github.com/${GITHUB_REPOSITORY}.git
+
+      # Specify the target branch (optional)
+      #- uses: helaili/jekyll-action@v2
+      #  with:
+      #    token: ${{ secrets.GITHUB_TOKEN }}
+      #    jekyll_src: src
+      #    target_branch: documentation
+      #    target_path: docs/${{env.BRANCH}}
+      #    #keep_history: true
+      #    build_only: false
+
+      #- name: Cache gems
+      #  uses: actions/cache@v1
+      #  with:
+      #    path: vendor/gems
+      #    key: ${{ runner.os }}-build-${{ hashFiles('**/Gemfile.lock') }}
+      #    restore-keys: |
+      #      ${{ runner.os }}-build-
+      #      ${{ runner.os }}-
+
+      #- name: Build
+      #  uses: DavidS/jekyll-deploy@main
+      #  with:
+      #    build-only: true
+      #    source-dir: src
+      #    #target-branch:
+      #  env:
+      #    JEKYLL_ENV: production
+      #    GH_PAGES_TOKEN: ${{ secrets.GH_PAGES_TOKEN }}
 
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@4.1.4
         with:
           branch: gh-pages # The branch the action should deploy to.
-          folder: docs/env.BRANCH # The folder the action should deploy.
-      
+          folder: ${{env.BRANCH}} # The folder the action should deploy.
+          target-folder: docs/${{env.BRANCH}}
+
+      #- name: Deploy
+      #  uses: Cecilapp/GitHub-Pages-deploy@v3
+      #  env:
+      #    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #  with:
+      #    email: vvv@arenadata.io
+      #    build_dir: docs/${{env.BRANCH}}
+      #    branch: gh-pages
+      #    jekyll: yes
+      #    # commit_message: custom message # optional
+    

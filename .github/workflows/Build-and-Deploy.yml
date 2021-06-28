@@ -61,9 +61,9 @@ jobs:
       - name: 🔨 Build site
         run: bundle exec jekyll build -s . -d ${{env.BRANCH}}
       
-      - name: Copy css
-        run: |
-          sudo cp -r css ${{env.BRANCH}}/assets
+      #- name: Copy css
+      #  run: |
+      #    sudo cp -r css ${{env.BRANCH}}/assets
       
       - name: 🧪 Deploy build
         run: |

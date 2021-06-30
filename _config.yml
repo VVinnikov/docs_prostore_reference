@@ -23,5 +23,7 @@ search:
   # Supports true (default) or false
   rel_url: false
 
+destination: docs/
+
 plugins:
   - jekyll-seo-tag
